@@ -18,99 +18,110 @@
 package MdeSudoku;
 
 public class Grid {
-	Cell[][] Case;
-	int Size;
+    private Cell[][] Case;
+    private int Size;
 
-	public Grid(int n){
-		this.Case = new Cell[n][n];
-		this.Size = n;
-	}
-	
-	public void Init(){
-    	int x,y;
-    
+    public Grid(int n){
+        this.Case = new Cell[n][n];
+        this.Size = n;
+    }
+
+    public void initGrid(){
+        int x,y;
+
         for(x=0;x<this.Size;x++)
         {
-           for(y=0;y<this.Size;y++){
-        	   this.Case[x][y]= new Cell(0 , false);
-           }   
+            for(y=0;y<this.Size;y++){
+                this.Case[x][y]= new Cell(0 , false);
+            }
         }
     }
-	
-	public void AddCell(int x, int y, int v, boolean f){
-        this.Case[x][y].SetValue(v);
-		this.Case[x][y].SetFixed(f);
-	}
-	
-    public boolean Solve(int p){
-    	int x,y,z;
-    	
-    	if (p== this.Size*this.Size){
-    		return true;
-    	}
-    	
-    	x = p/this.Size;
-    	y = p%this.Size;
-    	
-    	if(this.Case[x][y].GetFixed()){	
-    	  return Solve(p+1);
-    	}
-    	
-    	for(z=1;z<=this.Size;z++){
-    		if( OffLine(z,x) && OffColumn(z,y) && OffBloc(z,x,y) ){
-    			this.Case[x][y].SetValue(z);
-    			if(Solve(p+1)){
-    			  return true;
-    		    }
-    		}	
-    	}
-    	this.Case[x][y].SetValue(0);
-    	return false;
+
+    public void setCell(int x, int y, int v, boolean f){
+        this.Case[x][y].setValue(v);
+        this.Case[x][y].setFixed(f);
     }
-    
-    public void Display(){
-    	int x,y;
-    
+
+    public int getCellValue(int x, int y){
+        return this.Case[x][y].getValue();
+    }
+
+    public boolean getCellFixed(int x, int y){
+        return this.Case[x][y].getFixed();
+    }
+
+    public boolean solveGrid(int p){
+        int x,y,z;
+
+        if (p== this.Size*this.Size){
+            return true;
+        }
+
+        x = p/this.Size;
+        y = p%this.Size;
+
+        if(this.Case[x][y].getFixed()){
+            return solveGrid(p+1);
+        }
+
+        for(z=1;z<=this.Size;z++){
+            if( isOffLine(z, x) && isOffColumn(z,y) && isOffBloc(z,x,y) ){
+                this.Case[x][y].setValue(z);
+                if(solveGrid(p+1)){
+                    return true;
+                }
+            }
+        }
+        this.Case[x][y].setValue(0);
+        return false;
+    }
+
+    public void displayGrid(){
+        int x,y;
+
         for(x=0;x<this.Size;x++)
         {
-        	System.out.print("!");          
-         	for(y=0;y<this.Size;y++){
-        	   System.out.print(this.Case[x][y].GetValue());
-        	   System.out.print("!");   
-           }   
-           System.out.println();
+            System.out.print("!");
+            for(y=0;y<this.Size;y++){
+                System.out.print(this.Case[x][y].getValue());
+                System.out.print("!");
+            }
+            System.out.println();
         }
     }
-    
-    private boolean OffLine(int v, int x){
-    	int y;
-    	for(y=0;y<this.Size;y++){
-    		if (this.Case[x][y].GetValue()==v){
-    			return false;
-    		}
-    	}
-    	return true;
+
+//* toto
+
+    private boolean isOffLine(int v, int x){
+        int y;
+        for(y=0;y<this.Size;y++){
+            if (this.Case[x][y].getValue()==v){
+                return false;
+            }
+        }
+        return true;
     }
-    
-    private boolean OffColumn(int v, int y){
-    	int x;
-    	for(x=0;x<this.Size;x++){
-    		if (this.Case[x][y].GetValue()==v){
-    			return false;
-    		}
-    	}
-    	return true;
+
+    private boolean isOffColumn(int v, int y){
+        int x;
+        for(x=0;x<this.Size;x++){
+            if (this.Case[x][y].getValue()==v){
+                return false;
+            }
+        }
+        return true;
     }
-    
-    private boolean OffBloc(int v, int x , int y){
-    	int _x = x - (x % 3);
-    	int _y = y - (y % 3);
-    	for (x=_x; x <_x+3; x++){
-    		for(y=_y; y< _y+3; y++){
-    			if (this.Case[x][y].GetValue()==v)
-    				return false;
-    		}
-    	}
-    	return true;
+
+    private boolean isOffBloc(int v, int x , int y){
+        int _x = x - (x % 3);
+        int _y = y - (y % 3);
+        for (x=_x; x <_x+3; x++){
+            for(y=_y; y< _y+3; y++){
+                if (this.Case[x][y].getValue()==v)
+                    return false;
+            }
+        }
+        return true;
     }
 }
+

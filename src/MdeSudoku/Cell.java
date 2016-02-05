@@ -18,27 +18,27 @@
 package MdeSudoku;
 
 public class Cell {
-	int Value;
-	boolean Fixed;
-	
-	public Cell(int v, boolean f){
-		this.Value = v;
-		this.Fixed =f;
-	}
-	
-	public void SetValue(int v){
-		this.Value = v;
-	}
-	
-	public int GetValue(){
-		return this.Value;
-	}
-	
-	public void SetFixed(boolean f){
-		this.Fixed = f;
-	}
-	
-	public boolean GetFixed(){
-		return this.Fixed;
-	}
+    private int Value;
+    private boolean Fixed;
+
+    public Cell(int v, boolean f) {
+        this.Value = v;
+        this.Fixed = f;
+    }
+
+    public void setValue(int v) {
+        this.Value = v;
+    }
+
+    public int getValue() {
+        return this.Value;
+    }
+
+    public void setFixed(boolean f) {
+        this.Fixed = f;
+    }
+
+    public boolean getFixed(){
+        return this.Fixed;
+    }
 }
