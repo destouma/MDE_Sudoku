@@ -1,1 +1,1 @@
-# MDE_Sudoku
+# SUDOKU SOLVER IN JAVA
